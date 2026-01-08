@@ -1,0 +1,50 @@
+@baseUrl = http://localhost:3000/api/v1
+# Replace with the ADMIN_API_KEY you set in your .env file
+@adminKey = your_admin_api_key_here
+
+### 1. Health Check
+GET http://localhost:3000/health
+
+### 2. Get All Banks (Public)
+GET {{baseUrl}}/banks
+
+### 3. Get Commercial Banks Only (Public)
+GET {{baseUrl}}/banks?type=commercial
+
+### 4. Get Microfinance Banks Only (Public)
+GET {{baseUrl}}/banks?type=microfinance
+
+### 5. Create a New Bank (Admin Only)
+# You need to obtain a valid UUID after running GET requests or just create one to test ID retrieval later
+POST {{baseUrl}}/banks
+Content-Type: application/json
+x-api-key: {{adminKey}}
+
+{
+    "name": "Demo Bank",
+    "slug": "demo-bank",
+    "type": "commercial",
+    "code": "999",
+    "logo_url": "https://placehold.co/200x200.png",
+    "website": "https://demo.com"
+}
+
+### 6. Get Bank by ID (Public)
+# Replace :id with the UUID of the bank you just created or one from the list
+GET {{baseUrl}}/banks/:id
+
+### 7. Update Bank (Admin Only)
+# Replace :id with the UUID
+PUT {{baseUrl}}/banks/:id
+Content-Type: application/json
+x-api-key: {{adminKey}}
+
+{
+    "name": "Demo Bank Updated",
+    "website": "https://updated-demo.com"
+}
+
+### 8. Delete/Deactivate Bank (Admin Only)
+# Replace :id with the UUID
+DELETE {{baseUrl}}/banks/:id
+x-api-key: {{adminKey}}
